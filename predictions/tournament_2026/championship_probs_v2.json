@@ -1,0 +1,107 @@
+{
+  "simulation_date": "2026-03-17 15:18:30",
+  "n_simulations": 100000,
+  "gpu_used": true,
+  "championship_probabilities": [
+    {
+      "team": "Duke",
+      "seed": 1,
+      "champ_pct": 31.96
+    },
+    {
+      "team": "Michigan",
+      "seed": 1,
+      "champ_pct": 12.83
+    },
+    {
+      "team": "Arizona",
+      "seed": 1,
+      "champ_pct": 10.49
+    },
+    {
+      "team": "Florida",
+      "seed": 1,
+      "champ_pct": 8.43
+    },
+    {
+      "team": "Iowa State",
+      "seed": 2,
+      "champ_pct": 6.37
+    },
+    {
+      "team": "Gonzaga",
+      "seed": 3,
+      "champ_pct": 4.9
+    },
+    {
+      "team": "Purdue",
+      "seed": 2,
+      "champ_pct": 3.4
+    },
+    {
+      "team": "Houston",
+      "seed": 2,
+      "champ_pct": 3.32
+    },
+    {
+      "team": "Illinois",
+      "seed": 3,
+      "champ_pct": 3.17
+    },
+    {
+      "team": "Arkansas",
+      "seed": 4,
+      "champ_pct": 1.46
+    },
+    {
+      "team": "Tennessee",
+      "seed": 6,
+      "champ_pct": 1.24
+    },
+    {
+      "team": "Saint Mary's",
+      "seed": 7,
+      "champ_pct": 1.23
+    },
+    {
+      "team": "Michigan State",
+      "seed": 3,
+      "champ_pct": 1.16
+    },
+    {
+      "team": "Louisville",
+      "seed": 6,
+      "champ_pct": 1.09
+    },
+    {
+      "team": "UConn",
+      "seed": 2,
+      "champ_pct": 1.03
+    },
+    {
+      "team": "Nebraska",
+      "seed": 4,
+      "champ_pct": 0.91
+    },
+    {
+      "team": "Alabama",
+      "seed": 4,
+      "champ_pct": 0.87
+    },
+    {
+      "team": "Vanderbilt",
+      "seed": 5,
+      "champ_pct": 0.83
+    },
+    {
+      "team": "Texas Tech",
+      "seed": 5,
+      "champ_pct": 0.8
+    },
+    {
+      "team": "Virginia",
+      "seed": 3,
+      "champ_pct": 0.65
+    }
+  ]
+}

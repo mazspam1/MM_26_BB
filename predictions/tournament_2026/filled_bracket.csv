@@ -1,0 +1,68 @@
+slot_id,round,round_name,game_in_round,team_a_seed,team_a_name,team_a_score,team_a_score_p10,team_a_score_p90,team_b_seed,team_b_name,team_b_score,team_b_score_p10,team_b_score_p90,likely_winner_name,likely_winner_prob,projected_total,projected_spread_team_a,projected_possessions
+101,0,First Four,1,16,UMBC Retrievers,68.4,54.7,82.2,16,Howard Bison,67.4,53.6,81.1,UMBC Retrievers,0.523,134.3,1.0,68.4
+102,0,First Four,2,11,Texas Longhorns,77.9,64.0,91.8,11,NC State Wolfpack,79.1,65.2,93.0,NC State Wolfpack,0.526,155.5,-1.2,69.7
+103,0,First Four,3,16,Prairie View A&M Panthers,67.4,53.4,81.3,16,Lehigh Mountain Hawks,69.3,55.4,83.3,Lehigh Mountain Hawks,0.544,135.2,-2.0,71.1
+104,0,First Four,4,11,Miami (OH) RedHawks,80.5,65.9,95.1,11,SMU Mustangs,80.2,65.6,94.8,Miami (OH) RedHawks,0.506,159.2,0.3,71.5
+201,1,Round of 64,1,1,Duke Blue Devils,87.2,72.7,101.8,16,Siena Saints,52.7,38.1,67.2,Duke Blue Devils,0.984,138.4,34.5,65.3
+202,1,Round of 64,2,8,Ohio State Buckeyes,73.4,59.9,86.9,9,TCU Horned Frogs,68.7,55.2,82.2,Ohio State Buckeyes,0.607,140.6,4.7,68.4
+203,1,Round of 64,3,5,St. John's Red Storm,65.4,52.0,78.7,12,Northern Iowa Panthers,63.2,49.9,76.6,St. John's Red Storm,0.587,127.1,2.1,67.1
+204,1,Round of 64,4,4,Kansas Jayhawks,68.2,54.7,81.8,13,California Baptist Lancers,60.3,46.7,73.8,Kansas Jayhawks,0.735,127.0,7.9,68.3
+205,1,Round of 64,5,6,Louisville Cardinals,78.6,64.9,92.4,11,South Florida Bulls,73.3,59.5,87.0,Louisville Cardinals,0.644,150.4,5.4,72.3
+206,1,Round of 64,6,3,Michigan State Spartans,73.7,60.1,87.3,14,North Dakota State Bison,65.6,52.0,79.2,Michigan State Spartans,0.756,137.9,8.1,68.3
+207,1,Round of 64,7,7,UCLA Bruins,76.5,62.9,90.1,10,UCF Knights,71.8,58.2,85.4,UCLA Bruins,0.626,146.8,4.8,68.4
+208,1,Round of 64,8,2,UConn Huskies,73.1,59.6,86.6,15,Furman Paladins,62.4,48.9,75.9,UConn Huskies,0.822,133.9,10.6,66.7
+209,1,Round of 64,9,1,Florida Gators,91.0,76.2,105.9,16,Lehigh Mountain Hawks,56.6,41.7,71.4,Florida Gators,0.984,146.0,34.5,70.4
+210,1,Round of 64,10,8,Clemson Tigers,64.5,51.3,77.7,9,Iowa Hawkeyes,66.9,53.7,80.1,Iowa Hawkeyes,0.549,129.9,-2.2,64.5
+211,1,Round of 64,11,5,Vanderbilt Commodores,76.7,63.1,90.3,12,McNeese Cowboys,71.1,57.5,84.7,Vanderbilt Commodores,0.654,146.3,5.7,69.1
+212,1,Round of 64,12,4,Nebraska Cornhuskers,73.1,59.3,86.8,13,Troy Trojans,61.4,47.7,75.2,Nebraska Cornhuskers,0.788,133.0,11.6,68.1
+213,1,Round of 64,13,6,North Carolina Tar Heels,74.6,61.3,88.0,11,VCU Rams,71.7,58.3,85.0,North Carolina Tar Heels,0.601,144.8,3.0,68.7
+214,1,Round of 64,14,3,Illinois Fighting Illini,82.8,68.9,96.7,14,Pennsylvania Quakers,64.7,50.8,78.6,Illinois Fighting Illini,0.876,146.0,18.1,68.3
+215,1,Round of 64,15,7,Saint Mary's Gaels,76.0,62.4,89.7,10,Texas A&M Aggies,68.9,55.2,82.5,Saint Mary's Gaels,0.667,143.4,7.1,69.7
+216,1,Round of 64,16,2,Houston Cougars,74.0,60.3,87.6,15,Idaho Vandals,61.1,47.5,74.8,Houston Cougars,0.85,133.5,12.8,67.3
+217,1,Round of 64,17,1,Arizona Wildcats,88.1,73.5,102.6,16,Long Island University Sharks,57.3,42.8,71.9,Arizona Wildcats,0.977,143.9,30.7,69.2
+218,1,Round of 64,18,8,Villanova Wildcats,70.6,57.1,84.1,9,Utah State Aggies,75.6,62.1,89.1,Utah State Aggies,0.609,144.7,-5.1,68.0
+219,1,Round of 64,19,5,Wisconsin Badgers,79.3,65.7,92.8,12,High Point Panthers,78.6,65.1,92.2,Wisconsin Badgers,0.556,156.4,0.6,70.9
+220,1,Round of 64,20,4,Arkansas Razorbacks,86.3,72.2,100.4,13,Hawai'i Rainbow Warriors,70.2,56.1,84.3,Arkansas Razorbacks,0.839,155.0,16.0,73.1
+221,1,Round of 64,21,6,BYU Cougars,79.4,65.8,93.0,11,NC State Wolfpack,78.2,64.6,91.8,BYU Cougars,0.565,156.1,1.2,70.4
+222,1,Round of 64,22,3,Gonzaga Bulldogs,83.2,69.1,97.2,14,Kennesaw State Owls,66.9,52.9,81.0,Gonzaga Bulldogs,0.859,148.6,16.4,70.7
+223,1,Round of 64,23,7,Miami Hurricanes,76.0,62.4,89.5,10,Missouri Tigers,70.5,57.0,84.1,Miami Hurricanes,0.637,145.0,5.4,69.0
+224,1,Round of 64,24,2,Purdue Boilermakers,92.1,77.5,106.7,15,Queens University Royals,71.7,57.1,86.3,Purdue Boilermakers,0.918,162.3,20.3,68.0
+225,1,Round of 64,25,1,Michigan Wolverines,86.2,72.0,100.4,16,UMBC Retrievers,61.0,46.8,75.2,Michigan Wolverines,0.961,145.7,25.4,68.9
+226,1,Round of 64,26,8,Georgia Bulldogs,79.6,65.1,94.0,9,Saint Louis Billikens,81.6,67.2,96.1,Saint Louis Billikens,0.54,159.7,-1.9,72.6
+227,1,Round of 64,27,5,Texas Tech Red Raiders,77.5,64.0,91.1,12,Akron Zips,74.3,60.7,87.8,Texas Tech Red Raiders,0.609,150.3,3.3,69.5
+228,1,Round of 64,28,4,Alabama Crimson Tide,81.5,67.8,95.2,13,Hofstra Pride,71.6,57.9,85.3,Alabama Crimson Tide,0.767,151.6,10.0,70.0
+229,1,Round of 64,29,6,Tennessee Volunteers,75.8,62.3,89.3,11,Miami (OH) RedHawks,73.3,59.8,86.8,Tennessee Volunteers,0.591,147.5,2.5,70.1
+230,1,Round of 64,30,3,Virginia Cavaliers,76.1,62.5,89.7,14,Wright State Raiders,66.6,53.0,80.2,Virginia Cavaliers,0.778,141.2,9.5,68.3
+231,1,Round of 64,31,7,Kentucky Wildcats,75.4,61.9,88.9,10,Santa Clara Broncos,75.0,61.5,88.5,Kentucky Wildcats,0.541,148.8,0.4,69.9
+232,1,Round of 64,32,2,Iowa State Cyclones,80.5,66.6,94.4,15,Tennessee State Tigers,64.9,51.0,78.8,Iowa State Cyclones,0.88,143.9,15.6,69.7
+301,2,Round of 32,1,1,Duke Blue Devils,77.1,64.0,90.2,8,Ohio State Buckeyes,66.2,53.1,79.3,Duke Blue Devils,0.698,141.8,11.0,66.5
+302,2,Round of 32,2,5,St. John's Red Storm,67.4,54.3,80.4,4,Kansas Jayhawks,66.8,53.8,79.9,St. John's Red Storm,0.512,132.7,0.5,69.7
+303,2,Round of 32,3,6,Louisville Cardinals,71.9,58.9,84.9,3,Michigan State Spartans,71.9,58.9,84.9,Louisville Cardinals,0.5,142.3,-0.0,68.9
+304,2,Round of 32,4,7,UCLA Bruins,69.3,56.4,82.1,2,UConn Huskies,71.0,58.2,83.9,UConn Huskies,0.537,138.8,-1.8,66.2
+305,2,Round of 32,5,1,Florida Gators,73.9,60.8,86.9,9,Iowa Hawkeyes,67.0,54.0,80.1,Florida Gators,0.634,139.4,6.9,67.4
+306,2,Round of 32,6,5,Vanderbilt Commodores,71.5,58.5,84.5,4,Nebraska Cornhuskers,70.3,57.3,83.3,Vanderbilt Commodores,0.528,140.2,1.2,68.8
+307,2,Round of 32,7,6,North Carolina Tar Heels,71.6,58.6,84.6,3,Illinois Fighting Illini,77.1,64.1,90.1,Illinois Fighting Illini,0.61,147.3,-5.5,67.8
+308,2,Round of 32,8,7,Saint Mary's Gaels,65.9,53.1,78.7,2,Houston Cougars,67.1,54.3,79.9,Houston Cougars,0.523,131.5,-1.1,65.5
+309,2,Round of 32,9,1,Arizona Wildcats,77.7,64.6,90.8,9,Utah State Aggies,71.4,58.3,84.5,Arizona Wildcats,0.626,147.6,6.4,69.7
+310,2,Round of 32,10,5,Wisconsin Badgers,79.0,65.2,92.8,4,Arkansas Razorbacks,82.0,68.2,95.8,Arkansas Razorbacks,0.574,159.5,-3.1,71.3
+311,2,Round of 32,11,6,BYU Cougars,71.9,58.7,85.1,3,Gonzaga Bulldogs,77.2,64.0,90.4,Gonzaga Bulldogs,0.606,147.6,-5.4,70.2
+312,2,Round of 32,12,7,Miami Hurricanes,71.0,57.9,84.0,2,Purdue Boilermakers,78.4,65.4,91.5,Purdue Boilermakers,0.644,147.8,-7.5,66.9
+313,2,Round of 32,13,1,Michigan Wolverines,79.8,66.5,93.1,9,Saint Louis Billikens,72.8,59.5,86.1,Michigan Wolverines,0.635,151.0,7.0,71.3
+314,2,Round of 32,14,5,Texas Tech Red Raiders,79.6,65.9,93.3,4,Alabama Crimson Tide,79.6,65.9,93.3,Texas Tech Red Raiders,0.5,157.7,-0.0,71.1
+315,2,Round of 32,15,6,Tennessee Volunteers,68.5,55.7,81.4,3,Virginia Cavaliers,68.9,56.0,81.7,Virginia Cavaliers,0.507,136.0,-0.3,67.5
+316,2,Round of 32,16,7,Kentucky Wildcats,67.3,54.1,80.5,2,Iowa State Cyclones,74.2,61.0,87.4,Iowa State Cyclones,0.633,140.0,-6.9,68.9
+401,3,Sweet 16,1,1,Duke Blue Devils,77.5,64.6,90.5,5,St. John's Red Storm,64.3,51.3,77.2,Duke Blue Devils,0.731,140.3,13.2,68.4
+402,3,Sweet 16,2,6,Louisville Cardinals,72.5,59.9,85.1,2,UConn Huskies,70.9,58.3,83.5,Louisville Cardinals,0.531,141.9,1.4,68.4
+403,3,Sweet 16,3,1,Florida Gators,78.2,65.4,91.0,5,Vanderbilt Commodores,74.2,61.4,87.0,Florida Gators,0.585,150.9,4.1,71.3
+404,3,Sweet 16,4,3,Illinois Fighting Illini,72.1,59.6,84.6,2,Houston Cougars,70.6,58.1,83.1,Illinois Fighting Illini,0.535,141.2,1.4,66.2
+405,3,Sweet 16,5,1,Arizona Wildcats,80.1,67.3,92.8,4,Arkansas Razorbacks,76.3,63.6,89.1,Arizona Wildcats,0.581,154.9,3.8,72.0
+406,3,Sweet 16,6,3,Gonzaga Bulldogs,72.9,60.3,85.4,2,Purdue Boilermakers,73.9,61.4,86.5,Purdue Boilermakers,0.525,145.4,-1.0,67.3
+407,3,Sweet 16,7,1,Michigan Wolverines,76.4,63.6,89.2,5,Texas Tech Red Raiders,70.8,58.0,83.6,Michigan Wolverines,0.614,145.7,5.6,69.3
+408,3,Sweet 16,8,3,Virginia Cavaliers,67.9,55.3,80.6,2,Iowa State Cyclones,71.7,59.0,84.3,Iowa State Cyclones,0.591,138.1,-3.8,67.7
+501,4,Elite 8,1,1,Duke Blue Devils,76.5,63.9,89.0,6,Louisville Cardinals,67.9,55.4,80.5,Duke Blue Devils,0.666,142.9,8.4,68.4
+502,4,Elite 8,2,1,Florida Gators,76.1,63.7,88.5,3,Illinois Fighting Illini,74.8,62.4,87.2,Florida Gators,0.534,149.4,1.4,69.5
+503,4,Elite 8,3,1,Arizona Wildcats,76.1,63.8,88.4,2,Purdue Boilermakers,73.3,61.0,85.6,Arizona Wildcats,0.568,147.9,2.7,67.9
+504,4,Elite 8,4,1,Michigan Wolverines,73.3,60.8,85.7,2,Iowa State Cyclones,69.7,57.3,82.2,Michigan Wolverines,0.589,141.5,3.7,69.5
+601,5,Final Four,1,1,Duke Blue Devils,73.6,60.6,86.6,1,Florida Gators,69.3,56.3,82.3,Duke Blue Devils,0.601,141.5,4.3,69.0
+602,5,Final Four,2,1,Arizona Wildcats,73.8,60.8,86.8,1,Michigan Wolverines,73.0,60.0,86.0,Arizona Wildcats,0.521,145.3,0.8,70.9
+701,6,Championship,1,1,Duke Blue Devils,73.3,60.1,86.5,1,Arizona Wildcats,68.8,55.6,82.0,Duke Blue Devils,0.603,140.6,4.5,68.5

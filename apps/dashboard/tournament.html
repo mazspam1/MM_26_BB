@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>March Madness 2026 - Tournament Predictions</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: #ff6b35;
+            text-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: #888;
+        }
+        
+        .gpu-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #76b900 0%, #5a9a00 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #888;
+            text-transform: uppercase;
+        }
+        
+        .bracket-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .round-section {
+            margin-bottom: 40px;
+        }
+        
+        .round-title {
+            font-size: 1.5rem;
+            color: #ff6b35;
+            border-bottom: 2px solid #ff6b35;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 15px;
+        }
+        
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .game-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .game-card.upset-alert {
+            border-color: #ff4757;
+            background: rgba(255, 71, 87, 0.1);
+        }
+        
+        .team-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+        
+        .team-row.favored {
+            color: #4ecdc4;
+        }
+        
+        .team-seed {
+            font-size: 0.85rem;
+            color: #888;
+            min-width: 30px;
+        }
+        
+        .team-name {
+            font-weight: 600;
+            flex: 1;
+            margin-left: 10px;
+        }
+        
+        .team-score {
+            font-size: 1.3rem;
+            font-weight: bold;
+            min-width: 50px;
+            text-align: right;
+        }
+        
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.85rem;
+        }
+        
+        .stat-box {
+            text-align: center;
+        }
+        
+        .stat-box .value {
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .stat-box .label {
+            color: #888;
+            font-size: 0.75rem;
+        }
+        
+        .win-prob-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .win-prob-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ecdc4 0%, #44bd9e 100%);
+            transition: width 0.5s ease;
+        }
+        
+        .championship-section {
+            margin-top: 50px;
+        }
+        
+        .champion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        
+        .champion-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        
+        .champion-item.top-5 {
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid rgba(255, 107, 53, 0.5);
+        }
+        
+        .champion-name {
+            font-weight: 600;
+        }
+        
+        .champion-prob {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: #888;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #ff6b35;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8rem; }
+            .stats-bar { gap: 20px; }
+            .games-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏀 March Madness 2026</h1>
+        <p class="subtitle">AI-Powered Tournament Predictions</p>
+        <span class="gpu-badge">⚡ GPU ACCELERATED - RTX 5090</span>
+    </div>
+    
+    <div class="stats-bar" id="stats-bar">
+        <div class="stat-item">
+            <div class="stat-value" id="total-games">--</div>
+            <div class="stat-label">Games Predicted</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="total-sims">--</div>
+            <div class="stat-label">Simulations Run</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="runtime">--</div>
+            <div class="stat-label">Runtime (ms)</div>
+        </div>
+    </div>
+    
+    <div class="bracket-container" id="bracket-container">
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            <p>Loading tournament predictions...</p>
+        </div>
+    </div>
+    
+    <script>
+        // Load predictions from API
+        async function loadPredictions() {
+            try {
+                const response = await fetch('/api/tournament/2026');
+                const data = await response.json();
+                renderPredictions(data);
+            } catch (error) {
+                console.error('Failed to load predictions:', error);
+                document.getElementById('bracket-container').innerHTML = `
+                    <div class="loading">
+                        <p style="color: #ff4757;">Failed to load predictions. Make sure the API is running.</p>
+                        <p style="margin-top: 10px;">Run: <code>.\\start.ps1 tournament</code> to generate predictions.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function renderPredictions(data) {
+            // Update stats
+            document.getElementById('total-games').textContent = data.num_games || '--';
+            document.getElementById('total-sims').textContent = data.num_simulations?.toLocaleString() || '--';
+            document.getElementById('runtime').textContent = data.runtime_ms?.toLocaleString() || '--';
+            
+            const container = document.getElementById('bracket-container');
+            
+            // Group predictions by round
+            const rounds = {};
+            (data.predictions || []).forEach(pred => {
+                if (!rounds[pred.round]) rounds[pred.round] = [];
+                rounds[pred.round].push(pred);
+            });
+            
+            const roundNames = {
+                0: 'First Four',
+                1: 'Round of 64',
+                2: 'Round of 32',
+                3: 'Sweet 16',
+                4: 'Elite 8',
+                5: 'Final Four',
+                6: 'Championship'
+            };
+            
+            let html = '';
+            
+            // Render each round
+            Object.keys(rounds).sort((a, b) => a - b).forEach(round => {
+                const roundName = roundNames[round] || `Round ${round}`;
+                html += `
+                    <div class="round-section">
+                        <h2 class="round-title">${roundName}</h2>
+                        <div class="games-grid">
+                `;
+                
+                rounds[round].forEach(pred => {
+                    const isUpset = pred.upset_prob > 0.4;
+                    html += `
+                        <div class="game-card ${isUpset ? 'upset-alert' : ''}">
+                            <div class="team-row favored">
+                                <span class="team-seed">#${pred.higher_seed}</span>
+                                <span class="team-name">${pred.higher_seed_name}</span>
+                                <span class="team-score">${pred.proj_higher_score}</span>
+                            </div>
+                            <div class="team-row">
+                                <span class="team-seed">#${pred.lower_seed}</span>
+                                <span class="team-name">${pred.lower_seed_name}</span>
+                                <span class="team-score">${pred.proj_lower_score}</span>
+                            </div>
+                            <div class="win-prob-bar">
+                                <div class="win-prob-fill" style="width: ${pred.higher_seed_win_prob * 100}%"></div>
+                            </div>
+                            <div class="game-stats">
+                                <div class="stat-box">
+                                    <div class="value">${pred.higher_seed_win_prob.toFixed(1)}%</div>
+                                    <div class="label">Win Prob</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="value">${pred.proj_spread > 0 ? '+' : ''}${pred.proj_spread}</div>
+                                    <div class="label">Spread</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="value">${pred.proj_total}</div>
+                                    <div class="label">Total</div>
+                                </div>
+                                ${isUpset ? `
+                                    <div class="stat-box">
+                                        <div class="value" style="color: #ff4757;">${(pred.upset_prob * 100).toFixed(0)}%</div>
+                                        <div class="label">Upset</div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div></div>';
+            });
+            
+            // Championship probabilities
+            if (data.championship_probs) {
+                html += `
+                    <div class="championship-section">
+                        <h2 class="round-title">🏆 Championship Probabilities</h2>
+                        <div class="champion-grid">
+                `;
+                
+                const champs = Object.entries(data.championship_probs)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 20);
+                
+                champs.forEach(([team, prob], idx) => {
+                    html += `
+                        <div class="champion-item ${idx < 5 ? 'top-5' : ''}">
+                            <span class="champion-name">${team}</span>
+                            <span class="champion-prob">${(prob * 100).toFixed(1)}%</span>
+                        </div>
+                    `;
+                });
+                
+                html += '</div></div>';
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        // Load on page load
+        loadPredictions();
+        
+        // Refresh every 5 minutes
+        setInterval(loadPredictions, 5 * 60 * 1000);
+    </script>
+</body>
+</html>

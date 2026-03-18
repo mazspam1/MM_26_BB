@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 NCAA March Madness - AI Bracket Predictions</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0b1120;
+  --bg-panel: #111827;
+  --bg-card: #172033;
+  --bg-card-h: #1c2844;
+  --bdr: #253354;
+  --txt: #dce3f0;
+  --txt2: #8494b4;
+  --txt3: #4f6080;
+  --orange: #ff6b2b;
+  --blue: #4d8eff;
+  --gold: #f5c542;
+  --green: #34d399;
+  --red: #f87171;
+  --mg: 6px;
+  --cw: 205px;
+  --conn: 12px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Source Sans 3',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;}
+
+/* ===== HERO ===== */
+.hero{text-align:center;padding:32px 20px 20px;background:linear-gradient(180deg,#0f1628,var(--bg));border-bottom:1px solid var(--bdr);position:relative;}
+.hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(255,107,43,.07),transparent 70%);pointer-events:none;}
+.hero-ey{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:6px;}
+.hero h1{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(1.8rem,4.5vw,3rem);text-transform:uppercase;letter-spacing:2px;background:linear-gradient(135deg,#fff 30%,var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;}
+.hero-sub{font-size:13px;color:var(--txt2);margin-top:4px;letter-spacing:1px;}
+.champ-badge{display:inline-flex;align-items:center;gap:12px;margin-top:14px;padding:10px 24px;background:linear-gradient(135deg,rgba(255,107,43,.1),rgba(245,197,66,.06));border:1px solid rgba(255,107,43,.25);border-radius:8px;opacity:0;transform:translateY(6px);transition:all .4s ease;}
+.champ-badge.show{opacity:1;transform:translateY(0);}
+.champ-badge .trophy{font-size:26px;}
+.champ-badge .ci{text-align:left;}
+.champ-badge .cl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.champ-badge .cn{font-family:'Oswald',sans-serif;font-size:20px;font-weight:600;color:#fff;}
+.champ-badge .cp{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--orange);}
+
+/* ===== STATS BAR ===== */
+.sbar{display:flex;justify-content:center;gap:40px;padding:16px 24px;background:var(--bg-panel);border-bottom:1px solid var(--bdr);flex-wrap:wrap;}
+.si{min-width:72px;}
+.si .sv{font-family:'Oswald',sans-serif;font-size:22px;font-weight:600;color:var(--blue);text-align:center;line-height:1.2;}
+.si .sl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);text-align:center;margin-top:2px;}
+
+/* ===== CONTROLS ===== */
+.ctrl{display:flex;justify-content:center;gap:8px;padding:14px 20px;flex-wrap:wrap;align-items:center;}
+.ctrl-btn{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:600;padding:8px 18px;border:1px solid var(--bdr);border-radius:6px;background:var(--bg-card);color:var(--txt2);cursor:pointer;transition:all .2s;}
+.ctrl-btn:hover:not(:disabled){background:var(--bg-card-h);border-color:var(--blue);color:#fff;}
+.ctrl-btn.primary{background:linear-gradient(135deg,var(--orange),#d84315);color:#fff;border-color:transparent;box-shadow:0 2px 10px rgba(255,107,43,.2);}
+.ctrl-btn.primary:hover:not(:disabled){box-shadow:0 4px 18px rgba(255,107,43,.35);transform:translateY(-1px);}
+.ctrl-btn:disabled{opacity:.35;cursor:not-allowed;}
+.ctrl-btn.reset{border-color:var(--red);color:var(--red);background:transparent;}
+.ctrl-btn.reset:hover:not(:disabled){background:rgba(248,113,113,.08);}
+.ctrl-status{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);letter-spacing:.5px;min-width:100px;text-align:center;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.spinner{display:inline-block;width:12px;height:12px;border:2px solid var(--bdr);border-top-color:var(--orange);border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:5px;}
+
+/* ===== TOGGLE ===== */
+.vtog{display:flex;justify-content:center;gap:6px;padding:14px 20px 6px;}
+.vb{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:600;padding:6px 16px;border:1px solid var(--bdr);border-radius:5px;background:transparent;color:var(--txt2);cursor:pointer;transition:all .2s;}
+.vb.on,.vb:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+/* ===== BRACKET WRAP ===== */
+.bwrap{overflow-x:auto;padding:0 16px 24px;-webkit-overflow-scrolling:touch;}
+
+/* ===== ROUND HEADERS ===== */
+.rhdrs{display:flex;margin:0 auto;}
+.rhdrs .rh{flex:1 1 var(--cw);text-align:center;font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt3);padding:10px 0 8px;border-bottom:2px solid var(--bdr);}
+.rhdrs .rh.ctr{color:var(--orange);border-color:var(--orange);flex:0 0 260px;}
+.rhdrs .rh .rd{display:block;font-family:'Source Sans 3',sans-serif;font-size:9px;font-weight:400;color:var(--txt3);letter-spacing:.5px;margin-top:2px;opacity:.7;}
+
+/* ===== BRACKET LAYOUT ===== */
+.bracket{display:flex;margin:0 auto;align-items:stretch;min-height:1400px;}
+
+/* Each round column — flex:1 grows to fill available space for wider cards */
+.rcol{flex:1 1 var(--cw);display:flex;flex-direction:column;padding:0 var(--conn);position:relative;gap:28px;}
+.rcol.center{flex:0 0 260px;justify-content:center;align-items:center;padding:0 12px;gap:0;}
+
+/* Top/bottom region container — space-around gives perfect bracket alignment
+   when rlbl is position:absolute and doesn't participate in flex distribution.
+   Consistent padding-top across ALL rounds keeps alignment between columns. */
+.rcol-region{flex:1;display:flex;flex-direction:column;justify-content:space-around;position:relative;padding-top:28px;}
+
+/* Region label — position:absolute so it doesn't break space-around alignment */
+.rlbl{position:absolute;top:0;left:0;right:0;z-index:2;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);text-align:center;line-height:28px;}
+
+/* ===== MATCHUP ===== */
+.mu{position:relative;margin:2px 0;}
+.tr{display:flex;align-items:center;height:32px;background:var(--bg-card);border:1px solid var(--bdr);padding:0 8px;transition:background .15s;position:relative;overflow:hidden;}
+.tr:first-child{border-radius:4px 4px 0 0;border-bottom:none;}
+.tr:last-child{border-radius:0 0 4px 4px;}
+.tr.w{background:linear-gradient(90deg,rgba(52,211,153,.08),var(--bg-card));border-color:rgba(52,211,153,.25);}
+.tr.w .tn{color:var(--green);font-weight:600;}
+.tr.w .ts{color:var(--green);}
+.tr.l .tn{color:#fff;}
+.sd{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--txt3);width:20px;text-align:center;flex-shrink:0;}
+.tn{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px;padding:0 6px;color:#fff;}
+.ts{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--txt2);width:32px;text-align:right;flex-shrink:0;font-weight:500;}
+.pb{position:absolute;bottom:0;left:0;height:2px;background:var(--green);border-radius:0 1px 1px 0;}
+
+/* Hover */
+.mu:hover .tr{background:var(--bg-card-h);}
+.mu:hover .tr.w{background:linear-gradient(90deg,rgba(52,211,153,.15),var(--bg-card-h));}
+
+/* Tooltip */
+.tt{display:none;position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:#1a2744;border:1px solid var(--blue);border-radius:5px;padding:7px 10px;z-index:100;white-space:nowrap;font-size:10px;box-shadow:0 6px 20px rgba(0,0,0,.5);pointer-events:none;}
+.mu:hover .tt{display:block;}
+.ttr{display:flex;justify-content:space-between;gap:14px;color:var(--txt2);line-height:1.6;}
+.ttr span:last-child{color:var(--txt);font-weight:600;}
+
+/* Empty matchup */
+.mu.empty .tr{background:var(--bg);border-color:rgba(37,51,84,.4);}
+.mu.empty .tn{color:var(--txt3);font-style:italic;opacity:.6;}
+
+/* ===== FIRST FOUR ===== */
+.ff-section{max-width:960px;margin:0 auto;padding:20px 24px;}
+.ff-section h3{font-family:'Oswald',sans-serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);text-align:center;margin-bottom:12px;}
+.ff-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.ff-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--txt3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;text-align:center;}
+@media(max-width:700px){.ff-grid{grid-template-columns:repeat(2,1fr);}}
+
+/* ===== CENTER COLUMN ===== */
+.ctr-ff{font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:16px;text-align:center;}
+.ctr-champ{margin:28px 0;text-align:center;position:relative;padding:20px 6px;border-radius:8px;background:linear-gradient(135deg,rgba(245,197,66,.06),rgba(255,107,43,.04));border:1px solid rgba(245,197,66,.2);box-shadow:0 0 24px rgba(245,197,66,.06);}
+.ctr-champ .clbl{font-family:'Oswald',sans-serif;font-size:14px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;text-shadow:0 0 12px rgba(245,197,66,.3);}
+.ctr-champ .mu .tr{height:36px;border-color:rgba(245,197,66,.25);background:rgba(245,197,66,.04);}
+.ctr-champ .mu .tn{font-size:14px;font-weight:600;}
+.ctr-champ .mu .ts{font-size:14px;font-weight:700;}
+.ctr-champ .mu .sd{font-size:12px;}
+.ctr-champ .mu .tr.w{background:linear-gradient(90deg,rgba(245,197,66,.12),rgba(245,197,66,.04));border-color:rgba(245,197,66,.35);}
+.ctr-champ .mu .tr.w .tn{color:var(--gold);}
+.ctr-champ .mu .tr.w .ts{color:var(--gold);}
+.ctr-champ .mu .pb{background:var(--gold);}
+
+/* ===== ADVANCEMENT TABLE ===== */
+.adv-wrap{max-width:1000px;margin:24px auto;padding:0 20px 40px;}
+.adv-wrap h3{font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--txt);margin-bottom:12px;text-align:center;}
+.atw{overflow-x:auto;border-radius:6px;border:1px solid var(--bdr);}
+.at{width:100%;border-collapse:collapse;font-size:12px;}
+.at th{font-family:'Oswald',sans-serif;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--txt3);background:var(--bg-panel);padding:9px 12px;text-align:center;border-bottom:2px solid var(--bdr);}
+.at th:first-child{text-align:left;padding-left:16px;}
+.at td{padding:8px 12px;text-align:center;border-bottom:1px solid rgba(37,51,84,.4);font-family:'JetBrains Mono',monospace;font-size:11px;position:relative;}
+.at td:first-child{text-align:left;font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:12px;padding-left:16px;}
+.at tr{background:var(--bg-card);}
+.at tr:hover{background:var(--bg-card-h);}
+.at .gc{color:var(--gold)!important;font-weight:700!important;}
+.at .pcell{position:relative;}
+.at .pcell .pbg{position:absolute;top:2px;bottom:2px;left:2px;background:rgba(77,142,255,.1);border-radius:2px;}
+.at .pcell span{position:relative;z-index:1;}
+.at .rk{color:var(--txt3);font-size:10px;width:24px;}
+
+/* ===== FOOTER ===== */
+.ftr{text-align:center;padding:16px;color:var(--txt3);font-size:10px;border-top:1px solid var(--bdr);}
+
+/* ===== SECTIONS ===== */
+.sec{display:none;}.sec.on{display:block;}
+
+/* ===== BRACKET CONNECTORS ===== */
+/* Horizontal line from each matchup toward next round */
+.left-half .rcol:not(:last-child) .rcol-region .mu::after{
+  content:'';position:absolute;right:calc(-1 * var(--conn));top:50%;
+  width:var(--conn);height:1px;background:var(--bdr);
+}
+.right-half .rcol:not(:last-child) .rcol-region .mu::after{
+  content:'';position:absolute;left:calc(-1 * var(--conn));top:50%;
+  width:var(--conn);height:1px;background:var(--bdr);
+}
+/* Vertical bracket arms connecting paired matchups - left side */
+.left-half .rcol:not(:last-child) .rcol-region .mu:nth-child(odd)::before{
+  content:'';position:absolute;right:calc(-1 * var(--conn));top:50%;
+  width:1px;height:calc(50% + var(--mg));background:var(--bdr);
+}
+.left-half .rcol:not(:last-child) .rcol-region .mu:nth-child(even)::before{
+  content:'';position:absolute;right:calc(-1 * var(--conn));bottom:50%;
+  width:1px;height:calc(50% + var(--mg));background:var(--bdr);
+}
+/* Vertical bracket arms - right side */
+.right-half .rcol:not(:last-child) .rcol-region .mu:nth-child(odd)::before{
+  content:'';position:absolute;left:calc(-1 * var(--conn));top:50%;
+  width:1px;height:calc(50% + var(--mg));background:var(--bdr);
+}
+.right-half .rcol:not(:last-child) .rcol-region .mu:nth-child(even)::before{
+  content:'';position:absolute;left:calc(-1 * var(--conn));bottom:50%;
+  width:1px;height:calc(50% + var(--mg));background:var(--bdr);
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{height:7px;width:7px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:4px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-ey">AI-Powered Predictions &bull; Monte Carlo Simulations</div>
+  <h1>2026 NCAA March Madness</h1>
+  <div class="hero-sub">Full Tournament Bracket &mdash; Round-by-Round Repriced Projections</div>
+  <div class="champ-badge" id="champBadge">
+    <div class="trophy">&#127942;</div>
+    <div class="ci">
+      <div class="cl">Predicted Champion</div>
+      <div class="cn" id="champName">-</div>
+      <div class="cp" id="champPct">-</div>
+    </div>
+  </div>
+</header>
+
+<div class="sbar">
+  <div class="si"><div class="sv" id="stGames">0</div><div class="sl">Games Simulated</div></div>
+  <div class="si"><div class="sv" id="stChamp">-</div><div class="sl">Champion</div></div>
+  <div class="si"><div class="sv" id="stFavPct">-</div><div class="sl">Title Prob</div></div>
+  <div class="si"><div class="sv" id="stUpsets">0</div><div class="sl">Upsets</div></div>
+  <div class="si"><div class="sv" id="stSeeds">0</div><div class="sl">#1 Seeds in F4</div></div>
+</div>
+
+<!-- SIMULATION CONTROLS -->
+<div class="ctrl">
+  <button class="ctrl-btn primary" id="btnNext" onclick="simNext()">Simulate First Four</button>
+  <button class="ctrl-btn" id="btnAll" onclick="simAll()">Sim All Remaining</button>
+  <button class="ctrl-btn reset" id="btnReset" onclick="doReset()">Reset</button>
+  <div class="ctrl-status" id="ctrlStatus">Ready</div>
+</div>
+
+<div class="vtog">
+  <button class="vb on" onclick="sw('sec-b',this)">Full Bracket</button>
+  <button class="vb" onclick="sw('sec-a',this)">Advancement Odds</button>
+</div>
+
+<div id="sec-b" class="sec on">
+  <div class="ff-section">
+    <h3>First Four &mdash; March 17-18</h3>
+    <div class="ff-grid" id="ffg"></div>
+  </div>
+  <div class="bwrap">
+    <div class="rhdrs">
+      <div class="rh">First Round<span class="rd">Mar 19-20</span></div>
+      <div class="rh">Second Round<span class="rd">Mar 21-22</span></div>
+      <div class="rh">Sweet 16<span class="rd">Mar 26-27</span></div>
+      <div class="rh">Elite 8<span class="rd">Mar 28-29</span></div>
+      <div class="rh ctr">Final Four &amp; Championship<span class="rd">Apr 4 &amp; Apr 6</span></div>
+      <div class="rh">Elite 8<span class="rd">Mar 28-29</span></div>
+      <div class="rh">Sweet 16<span class="rd">Mar 26-27</span></div>
+      <div class="rh">Second Round<span class="rd">Mar 21-22</span></div>
+      <div class="rh">First Round<span class="rd">Mar 19-20</span></div>
+    </div>
+    <div class="bracket" id="brk"></div>
+  </div>
+</div>
+
+<div id="sec-a" class="sec">
+  <div class="adv-wrap">
+    <h3>Tournament Advancement Probabilities</h3>
+    <div class="atw"><table class="at" id="atbl"></table></div>
+  </div>
+</div>
+
+<div class="ftr">
+  CBB Lines Model v2 &bull; ESPN / hoopR Data &bull; 100K Monte Carlo &bull; Generated <span id="ts"></span>
+  <br>Not financial advice. For research and entertainment only.
+</div>
+
+<script>
+// =========================================================================
+// STATE
+// =========================================================================
+const ROUND_NAMES = {
+  0:'First Four', 1:'Round of 64', 2:'Round of 32',
+  3:'Sweet 16', 4:'Elite 8', 5:'Final Four', 6:'Championship'
+};
+let STATE = null;
+let simming = false;
+
+// =========================================================================
+// API
+// =========================================================================
+async function fetchState() {
+  const r = await fetch('/api/bracket-state');
+  STATE = await r.json();
+  return STATE;
+}
+async function apiSimRound(rnd, n=100000) {
+  const r = await fetch('/api/simulate-round', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({round:rnd, num_sims:n})
+  });
+  if (!r.ok) { const e = await r.json(); throw new Error(e.detail||'Sim failed'); }
+  return r.json();
+}
+async function apiReset() {
+  await fetch('/api/reset',{method:'POST'});
+}
+
+// =========================================================================
+// HELPERS
+// =========================================================================
+function byRound(rnd) { return (STATE?.games||[]).filter(g=>g.round===rnd); }
+function byRegion(reg,rnd) { return (STATE?.games||[]).filter(g=>g.region===reg&&g.round===rnd); }
+function played() { return (STATE?.games||[]).filter(g=>g.simulated).length; }
+
+function countUpsets() {
+  let u=0;
+  (STATE?.games||[]).forEach(g=>{
+    if(!g.simulated||g.round===0||!g.winner) return;
+    const ws = g.winner===g.team_a ? g.seed_a : g.seed_b;
+    const ls = g.winner===g.team_a ? g.seed_b : g.seed_a;
+    if(ws>ls) u++;
+  });
+  return u;
+}
+
+function topFav() {
+  const a=STATE?.advancement; if(!a) return {name:'-',pct:0};
+  let best={name:'-',pct:0};
+  for(const[t,p] of Object.entries(a)) if(p.champ>best.pct) best={name:t,pct:p.champ};
+  return best;
+}
+
+function nextRound() {
+  for(let r=0;r<=6;r++){const rg=byRound(r);if(rg.length>0&&rg.some(g=>!g.simulated))return r;}
+  return -1;
+}
+
+function countF4Seeds() {
+  const f4=byRound(5);
+  let n=0;
+  f4.forEach(g=>{
+    if(!g.simulated) return;
+    if(g.team_a && g.seed_a===1) n++;
+    if(g.team_b && g.seed_b===1) n++;
+  });
+  return n;
+}
+
+// =========================================================================
+// RENDER: MATCHUP
+// =========================================================================
+function mu(g) {
+  if(!g) return '';
+  const empty = !g.team_a && !g.team_b;
+  const sim = g.simulated;
+  const tA=g.team_a||'TBD', tB=g.team_b||'TBD';
+  const sA=g.seed_a??'', sB=g.seed_b??'';
+  const scA=sim?Math.round(g.score_a):'', scB=sim?Math.round(g.score_b):'';
+  let aW=false, bW=false;
+  if(sim&&g.winner){aW=g.winner===g.team_a;bW=!aW;}
+  const wp=g.win_prob_a?(g.win_prob_a*100).toFixed(0):'';
+
+  let tt='';
+  if(sim&&g.team_a&&g.team_b){
+    const spr=Math.abs(g.spread||0).toFixed(1);
+    const fav=(g.spread||0)>=0?g.team_a:g.team_b;
+    tt=`<div class="tt">
+      <div class="ttr"><span>Win Prob</span><span>${(g.win_prob_a*100).toFixed(1)}%</span></div>
+      <div class="ttr"><span>Spread</span><span>${fav} -${spr}</span></div>
+      <div class="ttr"><span>O/U Total</span><span>${(g.total||0).toFixed(1)}</span></div>
+    </div>`;
+  }
+
+  return`<div class="mu${empty?' empty':''}" data-gid="${g.id}">
+${tt}
+<div class="tr ${aW?'w':(bW?'l':'')}">
+<span class="sd">${sA}</span><span class="tn">${tA}</span><span class="ts">${scA}</span>
+${aW?`<div class="pb" style="width:${wp}%"></div>`:''}
+</div>
+<div class="tr ${bW?'w':(aW?'l':'')}">
+<span class="sd">${sB}</span><span class="tn">${tB}</span><span class="ts">${scB}</span>
+${bW?`<div class="pb" style="width:${100-(g.win_prob_a||0)*100}%"></div>`:''}
+</div></div>`;
+}
+
+// =========================================================================
+// RENDER: BRACKET
+// =========================================================================
+function renderBracket() {
+  // First Four
+  const ff=byRound(0);
+  const ffLabels=['Midwest 16','West 11','South 16','Midwest 11'];
+  document.getElementById('ffg').innerHTML=ff.map((g,i)=>
+    `<div><div class="ff-lbl">${ffLabels[i]||''}</div>${mu(g)}</div>`
+  ).join('');
+
+  function buildHalf(topReg,botReg,side){
+    const rounds=[1,2,3,4];
+    let h=`<div class="${side}-half" style="display:flex;${side==='right'?'flex-direction:row-reverse;':''}flex:1;">`;
+    rounds.forEach((rnd,ci)=>{
+      const top=byRegion(topReg,rnd), bot=byRegion(botReg,rnd);
+      h+=`<div class="rcol">`;
+      // Top region block
+      h+=`<div class="rcol-region">`;
+      if(ci===0) h+=`<div class="rlbl">${topReg}</div>`;
+      top.forEach(g=>{h+=mu(g);});
+      h+=`</div>`;
+      // Bottom region block
+      h+=`<div class="rcol-region">`;
+      if(ci===0) h+=`<div class="rlbl">${botReg}</div>`;
+      bot.forEach(g=>{h+=mu(g);});
+      h+=`</div>`;
+      h+=`</div>`;
+    });
+    h+=`</div>`;
+    return h;
+  }
+
+  function buildCenter(){
+    const f4=byRound(5), ch=byRound(6);
+    return`<div class="rcol center">
+<div class="ctr-ff">Final Four</div>
+${mu(f4[0])}
+<div class="ctr-champ"><div class="clbl">Championship &mdash; Apr 6</div>${mu(ch[0])}</div>
+${mu(f4[1])}
+</div>`;
+  }
+
+  document.getElementById('brk').innerHTML=
+    buildHalf('East','South','left')+
+    buildCenter()+
+    buildHalf('West','Midwest','right');
+}
+
+// =========================================================================
+// RENDER: ADVANCEMENT TABLE
+// =========================================================================
+function renderAdvancement() {
+  const adv=STATE?.advancement; if(!adv) return;
+  const teams=Object.entries(adv).map(([n,p])=>({name:n,...p})).sort((a,b)=>b.champ-a.champ);
+
+  const hd='<thead><tr><th>#</th><th>Team</th><th>R64</th><th>R32</th><th>Sweet 16</th><th>Elite 8</th><th>Final Four</th><th>Champion</th></tr></thead>';
+
+  const pf=(v,scale)=>{
+    const pct=(v*100).toFixed(1);
+    const w=Math.min(v*100*scale,100);
+    return`<td class="pcell"><div class="pbg" style="width:${w}%"></div><span>${pct}%</span></td>`;
+  };
+
+  const rows=teams.slice(0,30).map((t,i)=>{
+    const ch=t.champ*100;
+    return`<tr>
+<td class="rk">${i+1}</td><td>${t.name}</td>
+${pf(t.r64,1)}${pf(t.r32,1.8)}${pf(t.s16,2.8)}
+${pf(t.e8,4.5)}${pf(t.f4,7)}
+<td class="${ch>=3?'gc':''}">${ch.toFixed(1)}%</td>
+</tr>`;
+  }).join('');
+
+  document.getElementById('atbl').innerHTML=hd+`<tbody>${rows}</tbody>`;
+}
+
+// =========================================================================
+// RENDER: STATS + CONTROLS
+// =========================================================================
+function renderStats() {
+  document.getElementById('stGames').textContent=played();
+  const fav=topFav();
+  const champGame=byRound(6)[0];
+  const isComplete=champGame&&champGame.simulated&&champGame.winner;
+
+  document.getElementById('stChamp').textContent=isComplete?champGame.winner:fav.name;
+  document.getElementById('stFavPct').textContent=fav.pct>0?(fav.pct*100).toFixed(1)+'%':'-';
+  document.getElementById('stUpsets').textContent=countUpsets();
+  document.getElementById('stSeeds').textContent=countF4Seeds();
+  document.getElementById('ts').textContent=new Date().toLocaleString();
+
+  // Champion badge
+  const badge=document.getElementById('champBadge');
+  if(isComplete){
+    document.getElementById('champName').textContent=champGame.winner;
+    document.getElementById('champPct').textContent='Tournament Champion!';
+    badge.classList.add('show');
+  } else if(fav.pct>0){
+    document.getElementById('champName').textContent=fav.name;
+    document.getElementById('champPct').textContent=(fav.pct*100).toFixed(1)+'% Title Probability';
+    badge.classList.add('show');
+  } else {
+    badge.classList.remove('show');
+  }
+}
+
+function renderControls() {
+  const nr=nextRound();
+  const btn=document.getElementById('btnNext');
+  const btnAll=document.getElementById('btnAll');
+  if(nr===-1){
+    btn.textContent='Tournament Complete'; btn.disabled=true; btnAll.disabled=true;
+  } else {
+    btn.textContent='Simulate '+ROUND_NAMES[nr]; btn.disabled=false; btnAll.disabled=false;
+  }
+}
+
+// =========================================================================
+// SIMULATION ACTIONS
+// =========================================================================
+async function simNext() {
+  if(simming) return;
+  const nr=nextRound(); if(nr===-1) return;
+  simming=true;
+  const btn=document.getElementById('btnNext');
+  const status=document.getElementById('ctrlStatus');
+  btn.disabled=true; document.getElementById('btnAll').disabled=true;
+  status.innerHTML=`<span class="spinner"></span>Simulating ${ROUND_NAMES[nr]}...`;
+
+  try {
+    const result=await apiSimRound(nr,100000);
+    await fetchState();
+    renderAll();
+    status.textContent=`${ROUND_NAMES[nr]} done - ${result.runtime_ms.toFixed(0)}ms`;
+    status.style.color='var(--green)';
+    setTimeout(()=>{status.style.color='';},3000);
+  } catch(e) {
+    status.textContent='Error: '+e.message;
+    status.style.color='var(--red)';
+  }
+  simming=false;
+  renderControls();
+}
+
+async function simAll() {
+  if(simming) return;
+  simming=true;
+  const status=document.getElementById('ctrlStatus');
+  document.getElementById('btnNext').disabled=true;
+  document.getElementById('btnAll').disabled=true;
+
+  let nr=nextRound();
+  while(nr!==-1){
+    status.innerHTML=`<span class="spinner"></span>Simulating ${ROUND_NAMES[nr]}...`;
+    try {
+      await apiSimRound(nr,100000);
+      await fetchState();
+      renderAll();
+    } catch(e) {
+      status.textContent='Error: '+e.message;
+      status.style.color='var(--red)';
+      simming=false; renderControls(); return;
+    }
+    nr=nextRound();
+  }
+  status.textContent='Tournament complete!';
+  status.style.color='var(--green)';
+  simming=false; renderControls();
+}
+
+async function doReset() {
+  if(simming) return;
+  const status=document.getElementById('ctrlStatus');
+  status.innerHTML=`<span class="spinner"></span>Resetting...`;
+  await apiReset();
+  await fetchState();
+  renderAll();
+  status.textContent='Reset complete';
+  status.style.color='var(--green)';
+  setTimeout(()=>{status.textContent='Ready';status.style.color='';},2000);
+}
+
+// =========================================================================
+// VIEW SWITCH
+// =========================================================================
+function sw(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.vb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+// =========================================================================
+// MASTER RENDER
+// =========================================================================
+function renderAll(){
+  renderBracket();
+  renderAdvancement();
+  renderStats();
+  renderControls();
+}
+
+// =========================================================================
+// INIT
+// =========================================================================
+(async function(){
+  const status=document.getElementById('ctrlStatus');
+  status.innerHTML=`<span class="spinner"></span>Loading...`;
+  try {
+    await fetchState();
+    renderAll();
+    status.textContent='Ready';
+  } catch(e){
+    status.textContent='API not connected';
+    status.style.color='var(--red)';
+  }
+})();
+</script>
+</body>
+</html>

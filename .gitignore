@@ -1,0 +1,83 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Data files (keep schema, ignore actual data)
+data/*.duckdb
+data/*.duckdb.wal
+data/raw/**/*.parquet
+data/curated/**/*.parquet
+!data/schema.sql
+
+# Model artifacts
+*.pkl
+*.joblib
+*.nc
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/secrets.toml
+
+# APScheduler
+data/jobs.sqlite
+
+# Misc artifacts
+data/debug_*.html
+data/cbb.db
+temp_*.txt
+r64_result.json
+=0.*
+nul

@@ -1,0 +1,94 @@
+[project]
+name = "cbb-lines"
+version = "0.1.0"
+description = "PhD-grade NCAA Basketball spread/total prediction system"
+readme = "docs/README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+
+dependencies = [
+    # Data Ingestion
+    "sportsdataverse>=0.0.37",
+    "httpx>=0.27.0",
+
+    # Data Processing & Storage
+    "polars>=1.0.0",
+    "pandas>=2.2.0",
+    "duckdb>=1.1.0",
+    "pyarrow>=17.0.0",
+
+    # Validation & Typing
+    "pydantic>=2.9.0",
+    "pydantic-settings>=2.5.0",
+
+    # Bayesian Modeling
+    "pymc>=5.18.0",
+    "arviz>=0.19.0",
+    "scipy>=1.14.0",
+    "numpy>=1.26.0",
+
+    # Uncertainty Quantification
+    "mapie>=0.9.0",
+    "scikit-learn>=1.5.0",
+
+    # API Framework
+    "fastapi>=0.115.0",
+    "uvicorn>=0.32.0",
+    "apscheduler>=3.10.0",
+
+    # Dashboard
+    "streamlit>=1.40.0",
+    "plotly>=5.24.0",
+
+    # Logging
+    "structlog>=24.4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=5.0.0",
+    "mypy>=1.11.0",
+    "ruff>=0.6.0",
+    "ipython>=8.27.0",
+]
+
+# GPU-accelerated Monte Carlo with JAX/NumPyro
+# Requires CUDA 12.8+ for RTX 5090 (Blackwell architecture)
+gpu = [
+    "jax[cuda12]>=0.4.35",
+    "numpyro>=0.15.0",
+    "optax>=0.2.0",  # Optimization for JAX
+]
+
+# Full installation (dev + gpu)
+all = [
+    "cbb-lines[dev]",
+    "cbb-lines[gpu]",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["packages"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

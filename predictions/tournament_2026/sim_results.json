@@ -1,0 +1,58 @@
+{
+  "champion": "Duke",
+  "champ_pct": 33.3,
+  "top10": [
+    {
+      "name": "Duke",
+      "seed": 1,
+      "champ_pct": 33.3
+    },
+    {
+      "name": "Michigan",
+      "seed": 1,
+      "champ_pct": 12.3
+    },
+    {
+      "name": "Gonzaga",
+      "seed": 3,
+      "champ_pct": 8.5
+    },
+    {
+      "name": "Florida",
+      "seed": 1,
+      "champ_pct": 7.8
+    },
+    {
+      "name": "Purdue",
+      "seed": 2,
+      "champ_pct": 7.4
+    },
+    {
+      "name": "Iowa State",
+      "seed": 2,
+      "champ_pct": 6.6
+    },
+    {
+      "name": "Arizona",
+      "seed": 1,
+      "champ_pct": 5.6
+    },
+    {
+      "name": "Houston",
+      "seed": 2,
+      "champ_pct": 3.1
+    },
+    {
+      "name": "Illinois",
+      "seed": 3,
+      "champ_pct": 2.8
+    },
+    {
+      "name": "Alabama",
+      "seed": 4,
+      "champ_pct": 1.7
+    }
+  ],
+  "n_sims": 1000000,
+  "gpu": true
+}
