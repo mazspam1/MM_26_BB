@@ -22,7 +22,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $ProjectRoot = $PSScriptRoot
-$Ports = @(2500, 2501, 2502)
+$Ports = @(2500, 2502)
 
 # Activate virtual environment
 $VenvPath = Join-Path $ProjectRoot ".venv\Scripts\Activate.ps1"
@@ -392,7 +392,7 @@ function Start-Quick {
 function Show-Status {
     Write-Header "SERVICE STATUS"
     foreach ($port in $Ports) {
-        $svc = switch ($port) { 2500 { "API Server" } 2501 { "Streamlit" } 2502 { "Dashboard" } }
+        $svc = switch ($port) { 2500 { "API Server" } 2502 { "Dashboard" } }
         if (Test-PortOpen -Port $port) {
             Write-OK "$svc running on port $port (http://localhost:$port)"
         } else {
