@@ -104,7 +104,7 @@ QUALITY_REPORT_DIR=data/reports
 | `tournament` | Run March Madness Monte Carlo simulation |
 | `bracket` | Render visual bracket (opens in browser) |
 | `api` | Start FastAPI server (port 2500) |
-| `dashboard` | Start dashboard (port 2501) |
+| `dashboard` | Start bracket dashboard (port 2502) |
 | `worker` | Start background scheduler |
 | `test` | Run pytest test suite |
 | `stop` | Stop all services |
@@ -123,7 +123,7 @@ QUALITY_REPORT_DIR=data/reports
 
 | Service | URL |
 |---|---|
-| Dashboard | http://localhost:2501 |
+| Dashboard | http://localhost:2502 |
 | API | http://localhost:2500 |
 | API Docs | http://localhost:2500/docs |
 

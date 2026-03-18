@@ -100,7 +100,7 @@ function Show-Help {
 
   SERVICES
     api         Start FastAPI server (port 2500)
-    dashboard   Start Streamlit dashboard (port 2501)
+    dashboard   Start bracket dashboard (port 2502)
     worker      Start background scheduler
     stop        Kill all services
     status      Show running services
@@ -112,7 +112,7 @@ function Show-Help {
     help        Show this help
 
   URLS
-    Dashboard:  http://localhost:2501
+    Dashboard:  http://localhost:2502
     API:        http://localhost:2500
     API Docs:   http://localhost:2500/docs
 
@@ -271,16 +271,11 @@ function Start-API {
 }
 
 function Start-Dashboard {
-    Write-Header "DASHBOARD (port 2501)"
-    Write-Host "  Dashboard: http://localhost:2501" -ForegroundColor Green
+    Write-Header "DASHBOARD (port 2502)"
+    Write-Host "  Dashboard: http://localhost:2502" -ForegroundColor Green
     Write-Host ""
     Set-Location $ProjectRoot
-    $streamlitApp = Join-Path $ProjectRoot "apps\dashboard\app.py"
-    if (Test-Path $streamlitApp) {
-        & $PythonExe -m streamlit run $streamlitApp --server.port 2501 --server.headless true
-    } else {
-        & $PythonExe -m http.server 2501 --directory apps/dashboard
-    }
+    & $PythonExe apps/dashboard/bracket_api.py
 }
 
 function Start-Worker {
@@ -320,17 +315,11 @@ function Start-Full {
 
     Start-Sleep -Seconds 2
 
-    $streamlitApp = Join-Path $ProjectRoot "apps\dashboard\app.py"
-    $useStreamlit = Test-Path $streamlitApp
     Start-Job -Name "Dashboard" -ScriptBlock {
-        param($root, $python, $useStreamlit, $appPath)
+        param($root, $python)
         Set-Location $root
-        if ($useStreamlit) {
-            & $python -m streamlit run $appPath --server.port 2501 --server.headless true
-        } else {
-            & $python -m http.server 2501 --directory apps/dashboard
-        }
-    } -ArgumentList $ProjectRoot, $PythonExe, $useStreamlit, $streamlitApp | Out-Null
+        & $python apps/dashboard/bracket_api.py
+    } -ArgumentList $ProjectRoot, $PythonExe | Out-Null
 
     Start-Sleep -Seconds 4
 
@@ -339,7 +328,7 @@ function Start-Full {
     Write-Host "  |              SERVICES RUNNING                      |" -ForegroundColor Green
     Write-Host "  +====================================================+" -ForegroundColor Green
 
-    foreach ($port in @(2500, 2501)) {
+    foreach ($port in @(2500, 2502)) {
         $svc = if ($port -eq 2500) { "API Server" } else { "Dashboard" }
         $running = Test-PortOpen -Port $port
         $status = if ($running) { "RUNNING" } else { "starting..." }
@@ -359,7 +348,7 @@ function Start-Full {
 
     if (-not $NoBrowser) {
         Start-Sleep -Seconds 2
-        Start-Process "http://localhost:2501"
+        Start-Process "http://localhost:2502"
     }
 
     try {
@@ -382,26 +371,20 @@ function Start-Quick {
     Stop-All -Silent
     Invoke-Predict -TargetDate $Date
     Set-Location $ProjectRoot
-    $streamlitApp = Join-Path $ProjectRoot "apps\dashboard\app.py"
-    $useStreamlit = Test-Path $streamlitApp
     Start-Job -Name "Dashboard" -ScriptBlock {
-        param($root, $python, $useStreamlit, $appPath)
+        param($root, $python)
         Set-Location $root
-        if ($useStreamlit) {
-            & $python -m streamlit run $appPath --server.port 2501 --server.headless true
-        } else {
-            & $python -m http.server 2501 --directory apps/dashboard
-        }
-    } -ArgumentList $ProjectRoot, $PythonExe, $useStreamlit, $streamlitApp | Out-Null
+        & $python apps/dashboard/bracket_api.py
+    } -ArgumentList $ProjectRoot, $PythonExe | Out-Null
     Start-Job -Name "API" -ScriptBlock {
         param($root, $python)
         Set-Location $root
         & $python -m uvicorn apps.api.main:app --host 0.0.0.0 --port 2500
     } -ArgumentList $ProjectRoot, $PythonExe | Out-Null
     Start-Sleep -Seconds 4
-    Write-OK "Dashboard: http://localhost:2501"
+    Write-OK "Dashboard: http://localhost:2502"
     Write-OK "API: http://localhost:2500"
-    if (-not $NoBrowser) { Start-Process "http://localhost:2501" }
+    if (-not $NoBrowser) { Start-Process "http://localhost:2502" }
     try { while ($true) { Start-Sleep -Seconds 5 } }
     finally { Stop-All -Silent }
 }
@@ -409,7 +392,7 @@ function Start-Quick {
 function Show-Status {
     Write-Header "SERVICE STATUS"
     foreach ($port in $Ports) {
-        $svc = switch ($port) { 2500 { "API Server" } 2501 { "Dashboard" } 2502 { "Bracket API" } }
+        $svc = switch ($port) { 2500 { "API Server" } 2501 { "Streamlit" } 2502 { "Dashboard" } }
         if (Test-PortOpen -Port $port) {
             Write-OK "$svc running on port $port (http://localhost:$port)"
         } else {
